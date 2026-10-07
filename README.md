@@ -238,3 +238,30 @@ GET  /api/admin/analytics/top-performers
 
 **Password errors**
 → Make sure you're using the latest `security.py` with direct bcrypt.
+
+---
+
+## 🧠 Agentic AI Upgrade
+
+PlacementPilot now includes an explicit LangGraph-based interview workflow, grounded candidate-evidence retrieval and a reproducible evaluation harness.
+
+### Implemented
+- LangGraph state machine for evidence collection, gap detection and follow-up routing
+- candidate evidence records with stable source/evidence IDs
+- retrieval tools for profile, projects, GitHub, LeetCode and prior interview answers
+- deterministic retrieval baseline with domain-aware query expansion
+- evaluation helpers for groundedness, score stability and aggregate quality
+- GitHub Actions CI for backend tests and retrieval benchmark
+- engineering failure/learning log for reproducible retrospectives
+
+### Verified baseline
+- 13/13 agent/retrieval unit tests passing in CI
+- retrieval benchmark improved from 3/4 (75%) to 4/4 (100%) on the current synthetic four-case suite after fixing token normalization and semantic query expansion
+
+> The retrieval suite is intentionally small and synthetic. The result is a regression baseline, not a claim of real-world model accuracy.
+
+See:
+- `docs/AI_UPGRADE_ROADMAP.md`
+- `docs/ENGINEERING_LEARNING_LOG.md`
+- `docs/INTERVIEW_STORIES.md`
+
