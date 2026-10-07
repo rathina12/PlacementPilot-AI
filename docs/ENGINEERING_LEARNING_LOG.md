@@ -93,3 +93,17 @@ Added a small explicit domain-aware query-expansion layer while retaining the de
 ### Interview lesson
 A retrieval system can be syntactically correct and still fail semantically. Measure retrieval separately from generation, inspect misses, and improve the retriever based on observed failure modes.
 
+## 2026-10-07 — Retrieval baseline improved after semantic expansion
+
+### Verified result
+CI passed all 13 unit tests. The synthetic four-case retrieval regression suite improved from 3/4 (75%) to 4/4 (100%).
+
+### Scope
+This is a small deterministic regression suite, not a claim of production accuracy or general semantic-search quality.
+
+### What changed
+The competitive-programming query was mapped to explicit domain terms such as LeetCode, contest, rating and solved. This fixed the known semantic vocabulary miss while keeping the baseline interpretable.
+
+### Next comparison
+Use this deterministic 4/4 baseline as the control when a vector/embedding retriever is introduced. The vector approach must demonstrate value on a larger and harder evaluation set before replacing the simpler retriever.
+
