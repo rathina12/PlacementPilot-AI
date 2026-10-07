@@ -168,6 +168,14 @@ async def load_candidate_context(db, student_id: str) -> List[Evidence]:
     )
 
 
+QUERY_EXPANSIONS = {
+    "competitive programming": {"leetcode", "contest", "rating", "solved"},
+    "coding performance": {"leetcode", "contest", "rating", "solved"},
+    "cloud": {"aws", "certification"},
+    "backend": {"fastapi", "python", "api"},
+}
+
+
 def search_evidence(
     query: str,
     evidence: Iterable[Evidence],
@@ -178,11 +186,15 @@ def search_evidence(
     A vector retriever can replace this later; keeping this baseline lets us
     measure whether embeddings actually improve retrieval quality.
     """
+    normalized_query = query.lower()
     terms = {
         token.lower().strip(".,:;!?()[]{}\"'")
         for token in query.split()
         if token.strip()
     }
+    for phrase, expansions in QUERY_EXPANSIONS.items():
+        if phrase in normalized_query:
+            terms.update(expansions)
 
     scored = []
     for record in evidence:
