@@ -61,3 +61,21 @@ Production AI work includes dependency management and CI, not only prompts and m
 Before fix: CI stopped at dependency installation; 0 tests executed.
 After fix: pending next CI run.
 
+## 2026-10-07 — Retrieval false miss caused by inconsistent token normalization
+
+### Symptom
+CI installed dependencies successfully and ran 13 tests, but the grounded project retrieval test failed. Query `FastAPI project` returned no evidence even though the project evidence contained FastAPI.
+
+### Root cause
+Query tokens stripped punctuation, while evidence tokens used a raw whitespace split. The stored text contained `FastAPI,`, so exact lexical overlap failed.
+
+### Fix
+Applied the same lowercase + punctuation-normalization function to both query and evidence tokens.
+
+### Interview lesson
+Retrieval quality can fail before embeddings or LLMs are involved. Text normalization, tokenization and reproducible retrieval tests are part of RAG reliability. A simple deterministic baseline is valuable because it exposes preprocessing bugs clearly.
+
+### Metric
+Before fix: 12/13 unit tests passed; grounded project retrieval test failed.
+After fix: pending CI verification.
+
