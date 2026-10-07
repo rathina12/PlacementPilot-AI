@@ -1,0 +1,26 @@
+[
+  {
+    "id": "fastapi_project",
+    "query": "Which project proves FastAPI backend experience?",
+    "expected_source": "project",
+    "expected_term": "FastAPI"
+  },
+  {
+    "id": "aws_cert",
+    "query": "Does the candidate have AWS certification?",
+    "expected_source": "certification",
+    "expected_term": "AWS"
+  },
+  {
+    "id": "leetcode_rating",
+    "query": "What evidence shows competitive programming performance?",
+    "expected_source": "leetcode",
+    "expected_term": "rating"
+  },
+  {
+    "id": "typescript_signal",
+    "query": "What evidence supports TypeScript experience?",
+    "expected_source": "github",
+    "expected_term": "TypeScript"
+  }
+]
