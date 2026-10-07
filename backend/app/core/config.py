@@ -4,9 +4,9 @@ from typing import Optional
 
 class Settings(BaseSettings):
     APP_NAME: str = "StudentDigitalTwin"
-    SECRET_KEY: str = "changethissecretkey123456789"
+    SECRET_KEY: str
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
 
     # MongoDB Atlas
     MONGODB_URL: str = "mongodb://localhost:27017"
