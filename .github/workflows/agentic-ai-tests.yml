@@ -34,3 +34,6 @@ jobs:
 
       - name: Run agentic AI tests
         run: python -m unittest discover -s tests -v
+
+      - name: Run retrieval benchmark
+        run: python -m evaluation.run_retrieval_benchmark
