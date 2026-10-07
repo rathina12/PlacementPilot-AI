@@ -42,8 +42,8 @@ export default function LoginPage() {
           <div className="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-lg mb-4">
             <GraduationCap size={28} className="text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Student Digital Twin</h1>
-          <p className="text-gray-500 text-sm mt-1">AI-Powered Placement Readiness Platform</p>
+          <h1 className="text-2xl font-bold text-gray-900">PlacementPilot AI</h1>
+          <p className="text-gray-500 text-sm mt-1">Your career growth workspace</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
@@ -76,12 +76,6 @@ export default function LoginPage() {
             <p>New mentor? <Link href="/register/mentor" className="text-indigo-600 font-medium hover:underline">Register here</Link></p>
           </div>
 
-          <div className="mt-4 p-3 bg-indigo-50 rounded-xl text-xs text-indigo-700 text-center space-y-1">
-            <p className="font-semibold">Default Admin Credentials</p>
-            <p>Email: admin@sdt.edu</p>
-            <p>Password: Admin@123</p>
-            <p className="text-indigo-400">(Run python create_admin.py first)</p>
-          </div>
         </div>
       </div>
     </div>

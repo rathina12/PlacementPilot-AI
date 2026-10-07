@@ -92,6 +92,12 @@ async def get_session(session_id: str, current_user: dict = Depends(require_any)
     doc = await db["interview_sessions"].find_one({"_id": session_id})
     if not doc:
         raise HTTPException(404, "Session not found")
+    if current_user["role"] == "student" and doc["student_id"] != current_user["id"]:
+        raise HTTPException(403, "Access denied")
+    if current_user["role"] == "mentor":
+        student = await db[STUDENTS].find_one({"_id": doc["student_id"], "mentor_id": current_user["id"]})
+        if not student:
+            raise HTTPException(403, "Access denied")
     return _clean(doc)
 
 
@@ -99,6 +105,12 @@ async def get_session(session_id: str, current_user: dict = Depends(require_any)
 async def get_student_sessions(student_id: str,
                                current_user: dict = Depends(require_any)):
     db = get_db()
+    if current_user["role"] == "student" and student_id != current_user["id"]:
+        raise HTTPException(403, "Access denied")
+    if current_user["role"] == "mentor":
+        student = await db[STUDENTS].find_one({"_id": student_id, "mentor_id": current_user["id"]})
+        if not student:
+            raise HTTPException(403, "Access denied")
     docs = await db["interview_sessions"].find(
         {"student_id": student_id}
     ).sort("created_at", -1).to_list(50)
