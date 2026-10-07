@@ -209,9 +209,8 @@ def get_peer_benchmark(student_score: float, batch_scores: list) -> Dict[str, An
         }
 
     sorted_scores = sorted(batch_scores, reverse=True)
-    rank = sorted(batch_scores, reverse=True).index(
-        next((s for s in sorted_scores if s <= student_score), student_score)
-    ) + 1
+    # Competition ranking also handles scores above the current cohort maximum.
+    rank = 1 + sum(score > student_score for score in batch_scores)
 
     batch_average = round(sum(batch_scores) / len(batch_scores), 1)
     top_10_count = max(1, len(batch_scores) // 10)
