@@ -3,6 +3,7 @@ Run this once to create the default admin account.
 Usage: python create_admin.py
 """
 import asyncio
+import os
 from app.core.database import connect_db, get_db, close_db
 from app.core.security import get_password_hash
 from app.models import admin_doc, ADMINS
@@ -12,10 +13,12 @@ async def seed_admin():
     await connect_db()
     db = get_db()
 
-    # Default admin credentials
-    ADMIN_EMAIL    = "admin@sdt.edu"
-    ADMIN_PASSWORD = "Admin@123"
-    ADMIN_NAME     = "Platform Admin"
+    # Supply credentials privately via the environment. Never ship universal passwords.
+    ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "").strip().lower()
+    ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "")
+    ADMIN_NAME = os.environ.get("ADMIN_NAME", "Platform Admin")
+    if not ADMIN_EMAIL or not ADMIN_PASSWORD or len(ADMIN_PASSWORD) < 12:
+        raise SystemExit("Set ADMIN_EMAIL and a unique ADMIN_PASSWORD of at least 12 characters.")
 
     existing = await db[ADMINS].find_one({"email": ADMIN_EMAIL})
     if existing:
@@ -29,7 +32,6 @@ async def seed_admin():
         await db[ADMINS].insert_one(doc)
         print("✅ Admin account created!")
         print(f"   Email:    {ADMIN_EMAIL}")
-        print(f"   Password: {ADMIN_PASSWORD}")
         print(f"   Role:     Admin")
 
     await close_db()
