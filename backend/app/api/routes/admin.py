@@ -19,7 +19,8 @@ def _clean(doc):
 
 
 @router.post("/register")
-async def register_admin(data: AdminCreate):
+async def register_admin(data: AdminCreate, current_user: dict = Depends(require_admin)):
+    """Existing admins can invite admins; initial admin is bootstrapped by CLI."""
     db = get_db()
     existing = await db[ADMINS].find_one({"email": data.email.lower()})
     if existing:
