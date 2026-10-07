@@ -186,7 +186,11 @@ def search_evidence(
 
     scored = []
     for record in evidence:
-        haystack = set(record["text"].lower().split())
+        haystack = {
+            token.lower().strip(".,:;!?()[]{}\\\"'")
+            for token in record["text"].split()
+            if token.strip()
+        }
         overlap = len(terms & haystack)
         if overlap:
             scored.append((overlap, record["evidence_id"], record))
