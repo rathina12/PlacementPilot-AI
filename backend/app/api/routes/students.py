@@ -72,7 +72,7 @@ async def register_student(data: StudentCreate):
     except Exception as e:
         print(f"[Register] Error: {e}")
         traceback.print_exc()
-        raise HTTPException(500, f"Registration error: {str(e)}")
+        raise HTTPException(500, "Registration failed. Please try again later.")
 
 
 # ── Profile ───────────────────────────────────────────────────────────────────
@@ -110,6 +110,10 @@ async def get_student(student_id: str, current_user: dict = Depends(require_any)
     s = await db[STUDENTS].find_one({"_id": student_id})
     if not s:
         raise HTTPException(404, "Student not found")
+    if current_user["role"] == "student" and current_user["id"] != student_id:
+        raise HTTPException(403, "Access denied")
+    if current_user["role"] == "mentor" and s.get("mentor_id") != current_user["id"]:
+        raise HTTPException(403, "Access denied")
     return _clean(s)
 
 
