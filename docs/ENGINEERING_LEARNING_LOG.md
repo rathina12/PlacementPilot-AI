@@ -79,3 +79,17 @@ Retrieval quality can fail before embeddings or LLMs are involved. Text normaliz
 Before fix: 12/13 unit tests passed; grounded project retrieval test failed.
 After fix: pending CI verification.
 
+## 2026-10-07 — Baseline retrieval benchmark exposed semantic vocabulary gap
+
+### Measurement
+After fixing token normalization, CI passed all 13 unit tests. The offline retrieval benchmark scored 3/4 cases (75%).
+
+### Miss
+The query `What evidence shows competitive programming performance?` did not retrieve the LeetCode contest-rating evidence because a lexical retriever cannot infer that "competitive programming" maps to "LeetCode", "contest", "rating" and "solved".
+
+### Improvement
+Added a small explicit domain-aware query-expansion layer while retaining the deterministic retriever as the baseline. This is intentionally transparent and testable. A vector/embedding retriever can later be compared against it rather than assumed to be better.
+
+### Interview lesson
+A retrieval system can be syntactically correct and still fail semantically. Measure retrieval separately from generation, inspect misses, and improve the retriever based on observed failure modes.
+
