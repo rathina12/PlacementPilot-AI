@@ -178,6 +178,7 @@ async def delete_cert(cert_id: str, current_user: dict = Depends(require_student
     )
     if result.deleted_count == 0:
         raise HTTPException(404, "Certification not found")
+    await _recalculate_readiness(current_user["id"])
     return {"message": "Deleted"}
 
 
@@ -206,6 +207,7 @@ async def delete_project(project_id: str, current_user: dict = Depends(require_s
     )
     if result.deleted_count == 0:
         raise HTTPException(404, "Project not found")
+    await _recalculate_readiness(current_user["id"])
     return {"message": "Deleted"}
 
 
